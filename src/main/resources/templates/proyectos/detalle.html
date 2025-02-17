@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Detalle del Proyecto</title>
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome para íconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Estilos personalizados -->
+    <style>
+        .btn-custom {
+            transition: all 0.3s ease;
+        }
+        .btn-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .table-hover tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+        .footer {
+            background-color: #f8f9fa;
+            padding: 20px 0;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Gestión de Proyectos</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/proyectos/">Proyectos</a>
+                </li>
+            </ul>
+        </div>
+        <a href="/logout" class="btn btn-danger">Cerrar sesión</a>
+    </div>
+</nav>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Detalles del Proyecto</h2>
+
+    <!-- Detalles del proyecto -->
+    <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+            <p><strong>Nombre:</strong> <span th:text="${proyecto.nombre}"></span></p>
+            <p><strong>Descripción:</strong> <span th:text="${proyecto.descripcion}"></span></p>
+            <p><strong>Fecha de Inicio:</strong> <span th:text="${proyecto.fechaInicio}"></span></p>
+            <p><strong>Estado:</strong> <span th:text="${proyecto.estado}"></span></p>
+        </div>
+    </div>
+
+    <!-- Tareas asociadas -->
+    <h3 class="mb-3">Tareas Asociadas</h3>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark">
+            <tr>
+                <th>Título</th>
+                <th>Descripción</th>
+                <th>Fecha Límite</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Itera sobre la colección de tareas del proyecto -->
+            <tr th:each="tarea : ${proyecto.tareas}">
+                <td th:text="${tarea.titulo}"></td>
+                <td th:text="${tarea.descripcion}"></td>
+                <td th:text="${tarea.fechaLimite}"></td>
+                <td th:text="${tarea.estado}">Estado</td>
+                <td>
+                    <!-- Botón para editar redirige al formulario de edición -->
+                    <a th:href="@{'/tareas/editar/' + ${tarea.id}}" class="btn btn-primary btn-sm">Editar</a>
+                    <!-- Botón para eliminar -->
+                    <a th:href="@{'/tareas/eliminar/' + ${tarea.id}}"
+                       class="btn btn-danger btn-sm"
+                       onclick="return confirm('¿Estás seguro de eliminar esta tarea?')">
+                        Eliminar
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- Botón para volver al listado de proyectos -->
+    <a href="/proyectos" class="btn btn-secondary">Volver al listado</a>
+</div>
+
+<!-- Footer -->
+<footer class="footer text-center">
+    <div class="container">
+        <span class="text-muted">&copy; 2025 - Nebrija CRUDN1</span>
+    </div>
+</footer>
+
+<!-- Scripts de Bootstrap 5 -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+</body>
+</html>
